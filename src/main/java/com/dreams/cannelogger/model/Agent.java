@@ -3,14 +3,16 @@ package com.dreams.cannelogger.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
 public class Agent {
 
 	@Id
-	@GeneratedValue	
+	@GeneratedValue
 	private Long id;
-	
+
 	private String nom;
 
 	public Long getId() {
