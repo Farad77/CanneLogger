@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value='#{ticketBean.page}'/>
+		<f:event type="preRenderView" listener='#{ticketBean.paginate}'/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Search Ticket entities"/>
+
+	<ui:define name="header">
+		Ticket
+	</ui:define>
+
+	<ui:define name="subheader">
+		Search Ticket entities
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="ticketBeanExampleCtics" value="Ctics:"/>
+						<h:panelGroup>
+							<h:inputText id="ticketBeanExampleCtics" value="#{ticketBean.example.ctics}"/>
+							<h:message for="ticketBeanExampleCtics" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="ticketBeanExampleCoupeur" value="Coupeur:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{coupeurBean.converter}" id="ticketBeanExampleCoupeur" value="#{ticketBean.example.coupeur}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{coupeurBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="ticketBeanExampleCoupeur" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="ticketBeanExampleDetails" value="Details:"/>
+						<h:panelGroup>
+							<h:inputText id="ticketBeanExampleDetails" value="#{ticketBean.example.details}"/>
+							<h:message for="ticketBeanExampleDetails" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="ticketBeanExampleChauffeur" value="Chauffeur:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{chauffeurBean.converter}" id="ticketBeanExampleChauffeur" value="#{ticketBean.example.chauffeur}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{chauffeurBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="ticketBeanExampleChauffeur" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="ticketBeanExampleChargeur" value="Chargeur:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{chargeurBean.converter}" id="ticketBeanExampleChargeur" value="#{ticketBean.example.chargeur}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{chargeurBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="ticketBeanExampleChargeur" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Search" action='#{ticketBean.search}' styleClass="btn btn-primary"/>
+						<h:commandLink value="Create New" action='#{ticketBean.create}' styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="ticketBeanPageItems" styleClass="data-table" value="#{ticketBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Ctics"/>
+					</f:facet>
+					<h:link outcome="/ticket/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="_itemCtics" value="#{_item.ctics}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Coupeur"/>
+					</f:facet>
+					<h:link outcome="/ticket/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="forgeview:display(_itemCoupeur)" value="#{forgeview:display(_item.coupeur)}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Details"/>
+					</f:facet>
+					<h:link outcome="/ticket/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="_itemDetails" value="#{_item.details}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Chauffeur"/>
+					</f:facet>
+					<h:link outcome="/ticket/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="forgeview:display(_itemChauffeur)" value="#{forgeview:display(_item.chauffeur)}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Chargeur"/>
+					</f:facet>
+					<h:link outcome="/ticket/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="forgeview:display(_itemChargeur)" value="#{forgeview:display(_item.chargeur)}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value='#{ticketBean}'/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

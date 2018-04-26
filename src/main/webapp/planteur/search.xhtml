@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value='#{planteurBean.page}'/>
+		<f:event type="preRenderView" listener='#{planteurBean.paginate}'/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Search Planteur entities"/>
+
+	<ui:define name="header">
+		Planteur
+	</ui:define>
+
+	<ui:define name="subheader">
+		Search Planteur entities
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="planteurBeanExampleNumeroPlanteur" value="Numero Planteur:"/>
+						<h:panelGroup>
+							<h:inputText id="planteurBeanExampleNumeroPlanteur" value="#{planteurBean.example.numeroPlanteur}"/>
+							<h:message for="planteurBeanExampleNumeroPlanteur" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="planteurBeanExampleNomResponsable" value="Nom Responsable:"/>
+						<h:panelGroup>
+							<h:inputText id="planteurBeanExampleNomResponsable" value="#{planteurBean.example.nomResponsable}"/>
+							<h:message for="planteurBeanExampleNomResponsable" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="planteurBeanExampleNomSocial" value="Nom Social:"/>
+						<h:panelGroup>
+							<h:inputText id="planteurBeanExampleNomSocial" value="#{planteurBean.example.nomSocial}"/>
+							<h:message for="planteurBeanExampleNomSocial" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="planteurBeanExampleRoles" value="Roles:"/>
+						<h:panelGroup>
+							<h:inputText id="planteurBeanExampleRoles" value="#{planteurBean.example.roles}"/>
+							<h:message for="planteurBeanExampleRoles" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="planteurBeanExampleNom" value="Nom:"/>
+						<h:panelGroup>
+							<h:inputText id="planteurBeanExampleNom" value="#{planteurBean.example.nom}"/>
+							<h:message for="planteurBeanExampleNom" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Search" action='#{planteurBean.search}' styleClass="btn btn-primary"/>
+						<h:commandLink value="Create New" action='#{planteurBean.create}' styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="planteurBeanPageItems" styleClass="data-table" value="#{planteurBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Numero Planteur"/>
+					</f:facet>
+					<h:link outcome="/planteur/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="_itemNumeroPlanteur" value="#{_item.numeroPlanteur}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Nom Responsable"/>
+					</f:facet>
+					<h:link outcome="/planteur/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="_itemNomResponsable" value="#{_item.nomResponsable}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Nom Social"/>
+					</f:facet>
+					<h:link outcome="/planteur/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="_itemNomSocial" value="#{_item.nomSocial}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Roles"/>
+					</f:facet>
+					<h:link outcome="/planteur/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="_itemRoles" value="#{_item.roles}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Nom"/>
+					</f:facet>
+					<h:link outcome="/planteur/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="_itemNom" value="#{_item.nom}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value='#{planteurBean}'/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

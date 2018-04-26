@@ -20,31 +20,30 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
-import com.dreams.cannelogger.model.Agent;
-import com.dreams.cannelogger.model.Chargeur;
+import com.dreams.cannelogger.model.Ticket;
 
 /**
  * 
  */
 @Stateless
-@Path("/agents")
-public class AgentEndpoint {
+@Path("/tickets")
+public class TicketEndpoint {
 	@PersistenceContext(unitName = "CanneLogger-persistence-unit")
 	private EntityManager em;
 
 	@POST
 	@Consumes("application/json")
-	public Response create(Agent entity) {
+	public Response create(Ticket entity) {
 		em.persist(entity);
 		return Response.created(
-				UriBuilder.fromResource(AgentEndpoint.class)
+				UriBuilder.fromResource(TicketEndpoint.class)
 						.path(String.valueOf(entity.getId())).build()).build();
 	}
 
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") Long id) {
-		Agent entity = em.find(Agent.class, id);
+		Ticket entity = em.find(Ticket.class, id);
 		if (entity == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
@@ -56,12 +55,12 @@ public class AgentEndpoint {
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces("application/json")
 	public Response findById(@PathParam("id") Long id) {
-		TypedQuery<Agent> findByIdQuery = em
+		TypedQuery<Ticket> findByIdQuery = em
 				.createQuery(
-						"SELECT DISTINCT a FROM Agent a WHERE a.id = :entityId ORDER BY a.id",
-						Agent.class);
+						"SELECT DISTINCT t FROM Ticket t LEFT JOIN FETCH t.chauffeur LEFT JOIN FETCH t.chargeur LEFT JOIN FETCH t.coupeur LEFT JOIN FETCH t.planteur WHERE t.id = :entityId ORDER BY t.id",
+						Ticket.class);
 		findByIdQuery.setParameter("entityId", id);
-		Agent entity;
+		Ticket entity;
 		try {
 			entity = findByIdQuery.getSingleResult();
 		} catch (NoResultException nre) {
@@ -75,41 +74,46 @@ public class AgentEndpoint {
 
 	@GET
 	@Produces("application/json")
-	public List<Agent> listAll(@QueryParam("start") Integer startPosition,
+	public List<Ticket> listAll(@QueryParam("start") Integer startPosition,
 			@QueryParam("max") Integer maxResult) {
-		TypedQuery<Agent> findAllQuery = em.createQuery(
-				"SELECT DISTINCT a FROM Agent a ORDER BY a.id", Agent.class);
+		TypedQuery<Ticket> findAllQuery = em
+				.createQuery(
+						"SELECT DISTINCT t FROM Ticket t LEFT JOIN FETCH t.chauffeur LEFT JOIN FETCH t.chargeur LEFT JOIN FETCH t.coupeur LEFT JOIN FETCH t.planteur ORDER BY t.id",
+						Ticket.class);
 		if (startPosition != null) {
 			findAllQuery.setFirstResult(startPosition);
 		}
 		if (maxResult != null) {
 			findAllQuery.setMaxResults(maxResult);
 		}
-		final List<Agent> results = findAllQuery.getResultList();
-		return results;
-	}
-	@GET
-	@Path("/chargeurs")
-	@Produces("application/json")
-	public List<Agent> listAllChargeur(@QueryParam("start") Integer startPosition,
-			@QueryParam("max") Integer maxResult) {
-		TypedQuery<Agent> findAllQuery = em.createQuery(
-				"SELECT DISTINCT a FROM Agent a where a.class = :type ORDER BY a.id", Agent.class);
-		findAllQuery.setParameter("type", "Chargeur");
-		if (startPosition != null) {
-			findAllQuery.setFirstResult(startPosition);
-		}
-		if (maxResult != null) {
-			findAllQuery.setMaxResults(maxResult);
-		}
-		final List<Agent> results = findAllQuery.getResultList();
+		final List<Ticket> results = findAllQuery.getResultList();
 		return results;
 	}
 	
+	
+	@GET
+	@Path("/chargeurs")
+	@Produces("application/json")
+	public List<Ticket> listAllChargeur(@QueryParam("start") Integer startPosition,
+			@QueryParam("max") Integer maxResult) {
+		TypedQuery<Ticket> findAllQuery = em
+				.createQuery(
+						"SELECT DISTINCT t FROM Ticket t LEFT JOIN FETCH t.chauffeur LEFT JOIN FETCH t.chargeur LEFT JOIN FETCH t.coupeur LEFT JOIN FETCH t.planteur where t.role=='Chargeur' ORDER BY t.id",
+						Ticket.class);
+		if (startPosition != null) {
+			findAllQuery.setFirstResult(startPosition);
+		}
+		if (maxResult != null) {
+			findAllQuery.setMaxResults(maxResult);
+		}
+		final List<Ticket> results = findAllQuery.getResultList();
+		return results;
+	}
+
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes("application/json")
-	public Response update(@PathParam("id") Long id, Agent entity) {
+	public Response update(@PathParam("id") Long id, Ticket entity) {
 		if (entity == null) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
@@ -119,7 +123,7 @@ public class AgentEndpoint {
 		if (!id.equals(entity.getId())) {
 			return Response.status(Status.CONFLICT).entity(entity).build();
 		}
-		if (em.find(Agent.class, id) == null) {
+		if (em.find(Ticket.class, id) == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		try {

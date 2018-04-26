@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value='#{planteurBean.id}'/>
+		<f:event type="preRenderView" listener='#{planteurBean.retrieve}'/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="View Planteur"/>
+
+	<ui:define name="header">
+		Planteur
+	</ui:define>
+
+	<ui:define name="subheader">
+		View existing Planteur
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="planteurBeanPlanteurNumeroPlanteur" value="Numero Planteur:"/>
+			<h:outputText id="planteurBeanPlanteurNumeroPlanteur" value="#{planteurBean.planteur.numeroPlanteur}"/>
+			<h:outputText/>
+			<h:outputLabel for="planteurBeanPlanteurNomResponsable" value="Nom Responsable:"/>
+			<h:outputText id="planteurBeanPlanteurNomResponsable" value="#{planteurBean.planteur.nomResponsable}"/>
+			<h:outputText/>
+			<h:outputLabel for="planteurBeanPlanteurNomSocial" value="Nom Social:"/>
+			<h:outputText id="planteurBeanPlanteurNomSocial" value="#{planteurBean.planteur.nomSocial}"/>
+			<h:outputText/>
+			<h:outputLabel for="planteurBeanPlanteurRoles" value="Roles:"/>
+			<h:outputText id="planteurBeanPlanteurRoles" value="#{planteurBean.planteur.roles}"/>
+			<h:outputText/>
+			<h:outputLabel for="planteurBeanPlanteurNom" value="Nom:"/>
+			<h:outputText id="planteurBeanPlanteurNom" value="#{planteurBean.planteur.nom}"/>
+			<h:outputText/>
+			<h:outputLabel for="planteurBeanPlanteurPrenom" value="Prenom:"/>
+			<h:outputText id="planteurBeanPlanteurPrenom" value="#{planteurBean.planteur.prenom}"/>
+			<h:outputText/>
+			<h:outputLabel for="planteurBeanPlanteurUsername" value="Username:"/>
+			<h:outputText id="planteurBeanPlanteurUsername" value="#{planteurBean.planteur.username}"/>
+			<h:outputText/>
+			<h:outputLabel for="planteurBeanPlanteurTelephone" value="Telephone:"/>
+			<h:outputText id="planteurBeanPlanteurTelephone" value="#{planteurBean.planteur.telephone}"/>
+			<h:outputText/>
+			<h:outputLabel for="planteurBeanPlanteurEmail" value="Email:"/>
+			<h:outputText id="planteurBeanPlanteurEmail" value="#{planteurBean.planteur.email}"/>
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
+			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+		</div>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value='#{ticketBean.id}'/>
+		<f:event type="preRenderView" listener='#{ticketBean.retrieve}'/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="View Ticket"/>
+
+	<ui:define name="header">
+		Ticket
+	</ui:define>
+
+	<ui:define name="subheader">
+		View existing Ticket
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="ticketBeanTicketCtics" value="Ctics:"/>
+			<h:outputText id="ticketBeanTicketCtics" value="#{ticketBean.ticket.ctics}"/>
+			<h:outputText/>
+			<h:outputLabel for="ticketBeanTicketCoupeur" value="Coupeur:"/>
+			<h:link id="ticketBeanTicketCoupeur" outcome="/coupeur/view" rendered="#{!empty ticketBean.ticket.coupeur}" value="#{ticketBean.ticket.coupeur}">
+				<f:param name="id" value="#{ticketBean.ticket.coupeur.id}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="ticketBeanTicketDetails" value="Details:"/>
+			<h:outputText id="ticketBeanTicketDetails" value="#{ticketBean.ticket.details}"/>
+			<h:outputText/>
+			<h:outputLabel for="ticketBeanTicketChauffeur" value="Chauffeur:"/>
+			<h:link id="ticketBeanTicketChauffeur" outcome="/chauffeur/view" rendered="#{!empty ticketBean.ticket.chauffeur}" value="#{ticketBean.ticket.chauffeur}">
+				<f:param name="id" value="#{ticketBean.ticket.chauffeur.id}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="ticketBeanTicketChargeur" value="Chargeur:"/>
+			<h:link id="ticketBeanTicketChargeur" outcome="/chargeur/view" rendered="#{!empty ticketBean.ticket.chargeur}" value="#{ticketBean.ticket.chargeur}">
+				<f:param name="id" value="#{ticketBean.ticket.chargeur.id}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="ticketBeanTicketTonnage" value="Tonnage:"/>
+			<h:outputText id="ticketBeanTicketTonnage" value="#{ticketBean.ticket.tonnage}"/>
+			<h:outputText/>
+			<h:outputLabel for="ticketBeanTicketRichesse" value="Richesse:"/>
+			<h:outputText id="ticketBeanTicketRichesse" value="#{ticketBean.ticket.richesse}"/>
+			<h:outputText/>
+			<h:outputLabel for="ticketBeanTicketPlanteur" value="Planteur:"/>
+			<h:link id="ticketBeanTicketPlanteur" outcome="/planteur/view" rendered="#{!empty ticketBean.ticket.planteur}" value="#{ticketBean.ticket.planteur}">
+				<f:param name="id" value="#{ticketBean.ticket.planteur.id}"/>
+			</h:link>
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
+			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+		</div>
+	</ui:define>
+
+</ui:composition>
