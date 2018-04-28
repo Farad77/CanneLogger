@@ -90,25 +90,7 @@ public class TicketEndpoint {
 		return results;
 	}
 	
-	
-	@GET
-	@Path("/chargeurs")
-	@Produces("application/json")
-	public List<Ticket> listAllChargeur(@QueryParam("start") Integer startPosition,
-			@QueryParam("max") Integer maxResult) {
-		TypedQuery<Ticket> findAllQuery = em
-				.createQuery(
-						"SELECT DISTINCT t FROM Ticket t LEFT JOIN FETCH t.chauffeur LEFT JOIN FETCH t.chargeur LEFT JOIN FETCH t.coupeur LEFT JOIN FETCH t.planteur where t.role=='Chargeur' ORDER BY t.id",
-						Ticket.class);
-		if (startPosition != null) {
-			findAllQuery.setFirstResult(startPosition);
-		}
-		if (maxResult != null) {
-			findAllQuery.setMaxResults(maxResult);
-		}
-		final List<Ticket> results = findAllQuery.getResultList();
-		return results;
-	}
+
 
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
