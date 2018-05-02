@@ -106,6 +106,59 @@ public class AgentEndpoint {
 		return results;
 	}
 	
+	@GET
+	@Path("/chauffeurs")
+	@Produces("application/json")
+	public List<Agent> listAllChauffeur(@QueryParam("start") Integer startPosition,
+			@QueryParam("max") Integer maxResult) {
+		TypedQuery<Agent> findAllQuery = em.createQuery(
+				"SELECT DISTINCT a FROM Agent a where a.class = :type ORDER BY a.id", Agent.class);
+		findAllQuery.setParameter("type", "Chauffeur");
+		if (startPosition != null) {
+			findAllQuery.setFirstResult(startPosition);
+		}
+		if (maxResult != null) {
+			findAllQuery.setMaxResults(maxResult);
+		}
+		final List<Agent> results = findAllQuery.getResultList();
+		return results;
+	}
+	
+	@GET
+	@Path("/coupeurs")
+	@Produces("application/json")
+	public List<Agent> listAllCoupeur(@QueryParam("start") Integer startPosition,
+			@QueryParam("max") Integer maxResult) {
+		TypedQuery<Agent> findAllQuery = em.createQuery(
+				"SELECT DISTINCT a FROM Agent a where a.class = :type ORDER BY a.id", Agent.class);
+		findAllQuery.setParameter("type", "Coupeur");
+		if (startPosition != null) {
+			findAllQuery.setFirstResult(startPosition);
+		}
+		if (maxResult != null) {
+			findAllQuery.setMaxResults(maxResult);
+		}
+		final List<Agent> results = findAllQuery.getResultList();
+		return results;
+	}
+	
+	@GET
+	@Path("/planteurs")
+	@Produces("application/json")
+	public List<Agent> listAllPlanteur(@QueryParam("start") Integer startPosition,
+			@QueryParam("max") Integer maxResult) {
+		TypedQuery<Agent> findAllQuery = em.createQuery(
+				"SELECT DISTINCT a FROM Agent a where a.class = :type ORDER BY a.id", Agent.class);
+		findAllQuery.setParameter("type", "Planteur");
+		if (startPosition != null) {
+			findAllQuery.setFirstResult(startPosition);
+		}
+		if (maxResult != null) {
+			findAllQuery.setMaxResults(maxResult);
+		}
+		final List<Agent> results = findAllQuery.getResultList();
+		return results;
+	}
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes("application/json")
